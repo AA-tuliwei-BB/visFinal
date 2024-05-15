@@ -80,7 +80,7 @@ function submit() {
 
 .filterTitle {
     color: white;
-    margin: 16px;
+    margin: 1vw;
     width: 15%;
     flex-direction: row;
 
@@ -96,7 +96,7 @@ function submit() {
 
 .submitButton {
     position: absolute;
-    left: 85%;
+    right: 3.6%;
     top: 8%;
 }
 </style>

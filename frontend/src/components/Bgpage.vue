@@ -54,7 +54,7 @@ const subTitle = ref("子标题");
 .box {
     flex: 1;
     /* 每个子元素占据相等的空间 */
-    height: 300px;
-    margin: 10px;
+    height: 42vh;
+    margin: 0.5vw;
 }
 </style>
