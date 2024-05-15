@@ -9,6 +9,8 @@
 |  [GET](#get-chart)   | /chart  |     获取图表数据     |
 |   [GET](#get-rel)    |  /rel   |    获取关系图数据    |
 
+注意：目前统一用localhost，8890端口，没做配置文件
+
   
 ## POST /filter
 ### Description  
@@ -44,7 +46,7 @@ None
 }
 ```
 ### example
-`http://127.0.0.1/filter`
+`http://127.0.0.1:8890/filter`
 ### Response  
 None
 
@@ -54,7 +56,7 @@ None
 ### Parameters
 None
 ### example
-`http://127.0.0.1/heat`
+`http://127.0.0.1:8890/heat`
 ### Response
 ```json
 {
@@ -82,7 +84,7 @@ None
 - `page`: 页数，如果超过最大页数了，则返回最后一页
 - `size`: 每页大小
 ### example
-`http://127.0.0.1/list?page=1&size=10`
+`http://127.0.0.1:8890/list?page=1&size=10`
 ### Response
 ```json
 {
@@ -109,7 +111,7 @@ None
 - `type`: 需要的数据种类，
     如`keyword`, `batch`, `category`, `ethnic`
 ### example
-`http://127.0.0.1/chart?type=keyword`
+`http://127.0.0.1:8890/chart?type=keyword`
 ### Response
 不管是哪种type，返回都是是kv对的数组，如下
 ```json
@@ -128,6 +130,7 @@ None
     ]
 }
 ```
+注意：keyword只返回前20个，其他的返回全部
 
 ## GET /rel
 ### Description
@@ -137,7 +140,7 @@ None
 - `name`: 地区或关键词的名字
 - `limit`: 限制返回的数量
 ### example
-`http://127.0.0.1/rel?type=province&name=福建&limit=10`
+`http://127.0.0.1:8890/rel?type=province&name=福建&limit=10`
 ### Response
 ```json
 {
