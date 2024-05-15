@@ -12,9 +12,10 @@ package server
 
 import (
 	"fmt"
-	"github.com/rs/cors"
 	"net/http"
 	"strconv"
+
+	"github.com/rs/cors"
 )
 
 // 启动服务器
@@ -129,4 +130,34 @@ func chart_handler(w http.ResponseWriter, r *http.Request) {
 // 获取关系图数据
 func rel_handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("handling request: rel...")
+	// 确保是get请求
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	typename, ok := r.URL.Query()["type"]
+	if !ok {
+		http.Error(w, "type not found", http.StatusBadRequest)
+		return
+	}
+	name, ok := r.URL.Query()["name"]
+	if !ok {
+		http.Error(w, "name not found", http.StatusBadRequest)
+		return
+	}
+	limit_str, ok := r.URL.Query()["limit"]
+	limit, err := strconv.Atoi(limit_str[0])
+	if !ok || err != nil {
+		http.Error(w, "limit invalid", http.StatusBadRequest)
+		return
+	}
+
+	result, err := get_rel(typename[0], name[0], limit)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	w.Write([]byte(result))
+	fmt.Println("chart data sent successfully.")
 }
