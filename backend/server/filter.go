@@ -57,7 +57,7 @@ func get_predicate() (string, []interface{}) {
 				query.WriteString("1=1 AND ")
 				return
 			}
-			query.WriteString(name + " IN (")
+			query.WriteString("data." + name + " IN (")
 			for i, arg := range args_ {
 				if i > 0 {
 					query.WriteString(", ")
@@ -84,7 +84,7 @@ func get_predicate() (string, []interface{}) {
 				if i > 0 {
 					query.WriteString(" OR ")
 				}
-				query.WriteString("name LIKE ?")
+				query.WriteString("data.keyword LIKE ?")
 				args = append(args, "%"+keyword+"%")
 			}
 			query.WriteString(") AND ")

@@ -106,6 +106,24 @@ func list_handler(w http.ResponseWriter, r *http.Request) {
 // 获取图表数据
 func chart_handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("handling request: chart...")
+	// 确保是get请求
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	typename, ok := r.URL.Query()["type"]
+	if !ok {
+		http.Error(w, "type not found", http.StatusBadRequest)
+		return
+	}
+	result, err := get_chart(typename[0])
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	w.Write([]byte(result))
+	fmt.Println("chart data sent successfully.")
 }
 
 // 获取关系图数据

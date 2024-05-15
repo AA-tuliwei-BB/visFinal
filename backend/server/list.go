@@ -19,6 +19,7 @@ import (
 //     FROM data
 //     GROUP BY pid
 // ) AS t1 ON data.project_number = t1.pid
+// WHERE -- get filter --
 // GROUP BY data.name, data.batch
 // ORDER BY count DESC
 // LIMIT ? OFFSET ?;
@@ -35,6 +36,7 @@ type ListResponse struct {
 }
 
 func get_list(page int, size int) (string, error) {
+	pred_str, args := get_predicate()
 	sql := "SELECT MIN(data.uid) AS uid, " +
 		"data.name AS name, " +
 		"data.category AS category, " +
@@ -50,12 +52,15 @@ func get_list(page int, size int) (string, error) {
 		"    FROM data " +
 		"    GROUP BY pid " +
 		") AS t1 ON data.project_number = t1.pid " +
+		"WHERE " + pred_str + " " +
 		"GROUP BY data.name, data.batch " +
 		"ORDER BY count DESC " +
 		"LIMIT ? OFFSET ?;"
 
+	args = append(args, size, (page-1)*size)
+
 	db := database.GetDB()
-	rows, err := db.Query(sql, size, (page-1)*size)
+	rows, err := db.Query(sql, args...)
 	if err != nil {
 		fmt.Println("test", err)
 		return "", err
