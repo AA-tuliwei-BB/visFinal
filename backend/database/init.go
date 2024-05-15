@@ -30,6 +30,7 @@ func Init() {
 	}
 
 	// 初始化数据库
+	fmt.Println("initializing database...")
 	db, err := sql.Open("sqlite3", "database/data.db")
 	if err != nil {
 		fmt.Println("Error opening database:", err)
@@ -39,18 +40,19 @@ func Init() {
 
 	// 将file中的数据导入到数据库
 	// 建表, 表的列：uid ,项目序号,编号,名称,类别,公布时间,类型,申报地区或单位,保护单位,省份,民族,关键词,描述
+	fmt.Println("Creating table...")
 	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS data
                     (uid INTEGER PRIMARY KEY, -- uid
                     project_number TEXT, -- 项目序号
                     number TEXT, -- 编号
                     name TEXT, -- 名称
                     category TEXT, -- 类别
-                    publish_time TEXT, -- 公布时间
+                    batch TEXT, -- 公布时间
                     type TEXT, -- 类型
                     declare_area_or_unit TEXT, -- 申报地区或单位
                     protection_unit TEXT, -- 保护单位
                     province TEXT, -- 省份
-                    nation TEXT, -- 民族
+                    ethnic TEXT, -- 民族
                     keyword TEXT, -- 关键词
                     description TEXT -- 描述
 					)`)

@@ -16,9 +16,10 @@
 每次请求都会更新session中的筛选条件。
 ### Parameters  
 None
-### Data
+### Body
 ```json  
 {
+    // 对于每一个属性如果全选，直接传["all"]过来，如"category": ["all"]
     "category":
     [
         "category1",
@@ -31,8 +32,8 @@ None
         "batch2",
         ...
     ],
-    "ethnic": "(ethnic filter string)", // 直接把输入拼进来
-    "keyword": "(keyword filter string)", // 直接把输入拼进来
+    "ethnic": "(ethnic filter string)", // 直接把输入拼进来，空的话默认为全选
+    "keyword": "(keyword filter string)", // 直接把输入拼进来，空的话默认为全选
     "province":
     [
         // 有些非遗没有省份，即省份为"-"，这种情况也直接传"-"过来
