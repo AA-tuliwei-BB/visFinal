@@ -12,19 +12,24 @@ package server
 
 import (
 	"fmt"
+	"github.com/rs/cors"
 	"net/http"
 	"strconv"
 )
 
 // 启动服务器
 func Start() {
-	http.HandleFunc("/filter", filter_handler)
-	http.HandleFunc("/heat", heat_handler)
-	http.HandleFunc("/list", list_handler)
-	http.HandleFunc("/chart", chart_handler)
-	http.HandleFunc("/rel", rel_handler)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/filter", filter_handler)
+	mux.HandleFunc("/heat", heat_handler)
+	mux.HandleFunc("/list", list_handler)
+	mux.HandleFunc("/chart", chart_handler)
+	mux.HandleFunc("/rel", rel_handler)
+
+	handler := cors.Default().Handler(mux)
+
 	fmt.Println("Server started at http://localhost:8890")
-	err := http.ListenAndServe(":8890", nil)
+	err := http.ListenAndServe(":8890", handler)
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
