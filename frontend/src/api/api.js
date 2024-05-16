@@ -41,9 +41,9 @@ export function postFilter(
   if (selectedBatchesStrings.length === 0) {
     selectedBatchesStrings = ["all"];
   }
-
-  if (selectedProvinces.value.length === 0) {
-    selectedProvinces.value = ["all"];
+  let selectedProvincesStrings = selectedProvinces.value;
+  if (selectedProvincesStrings.length === 0) {
+    selectedProvincesStrings = ["all"];
   }
 
   const result = {
@@ -51,10 +51,14 @@ export function postFilter(
     batch: selectedBatchesStrings,
     ethnic: selectedEthnicity.value,
     keyword: selectedKeyword.value,
-    province: selectedProvinces.value,
+    province: selectedProvincesStrings,
   };
 
   const jsonString = JSON.stringify(result);
   console.log(jsonString);
   request.post("/filter", jsonString);
+}
+
+export function getHeat() {
+  return request.get("/heat");
 }

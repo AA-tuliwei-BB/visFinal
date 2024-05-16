@@ -5,7 +5,7 @@
         <div>
             <div class="container">
                 <div class="box">
-                    <Viewbox title="Filter" :boxb="true">
+                    <Viewbox title="筛选器" :boxb="true">
                         <Filter />
                     </Viewbox>
                 </div>
@@ -18,7 +18,9 @@
             </div>
             <div class="container">
                 <div class="box">
-                    <Viewbox title="测试子标题" :boxb="true" />
+                    <Viewbox title="中国地图" :boxb="true">
+                        <Heatmap />
+                    </Viewbox>
                 </div>
                 <div class="box">
                     <Viewbox title="测试子标题" :boxb="true" />
@@ -34,7 +36,7 @@ import { ref } from 'vue';
 import Header from './Header.vue'
 import Filter from './filter.vue';
 import Viewbox from './viewbox/Viewbox.vue'
-
+import Heatmap from './Heatmap.vue'
 const subTitle = ref("子标题");
 </script>
 

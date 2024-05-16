@@ -4,8 +4,8 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     selectedCategories: [],
-    selectedEthnicity: [],
-    selectedBatches: "",
+    selectedBatches: [],
+    selectedEthnicity: "",
     selectedKeyword: "",
     selectedProvinces: [],
   },

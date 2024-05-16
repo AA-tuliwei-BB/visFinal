@@ -2,7 +2,7 @@
     <div class="header">
         <div class="bg-header">
             <div class="t-title">
-                数据可视化平台
+                非遗数据可视化分析平台
             </div>
         </div>
     </div>
@@ -21,12 +21,14 @@ export default {
     height: 80px;
     padding: 0 20px;
 }
+
 .bg-header {
     width: 100%;
     height: 80px;
     background: url(src/assets/title.png) no-repeat;
     background-size: 100% 100%;
 }
+
 .t-title {
     width: 100%;
     height: 100%;
