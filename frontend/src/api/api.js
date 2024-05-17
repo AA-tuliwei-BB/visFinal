@@ -21,12 +21,13 @@ const declarationTimes = [
   "2014(第四批)",
 ];
 
-export function postFilter(
+export async function postFilter(
   selectedCategories,
   selectedBatches,
   selectedEthnicity,
   selectedKeyword,
-  selectedProvinces
+  selectedProvinces,
+  updateHeatMap
 ) {
   let selectedCategoriesStrings = selectedCategories.value.map(
     (index) => categories[index]
@@ -53,10 +54,10 @@ export function postFilter(
     keyword: selectedKeyword.value,
     province: selectedProvincesStrings,
   };
-
   const jsonString = JSON.stringify(result);
   console.log(jsonString);
-  request.post("/filter", jsonString);
+  await request.post("/filter", jsonString);
+  updateHeatMap.value = true;
 }
 
 export function getHeat() {

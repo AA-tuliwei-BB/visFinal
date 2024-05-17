@@ -62,12 +62,17 @@ const selectedProvinces = computed({
     set: (value) => store.commit('setSelectedProvinces', value)
 })
 
+const updateHeatMap = computed({
+    get: () => store.state.updateHeatMap,
+    set: (value) => store.commit('setUpdateHeatMap', value)
+})
+
 const categories = ['民间文学', '传统音乐', '传统舞蹈', '传统戏剧', '曲艺', '传统体育、游艺与杂技', '传统美术', '传统技艺', '传统医药', '民俗'];
 
 const declarationTimes = ['2006(第一批)', '2011(第三批)', '2021(第五批)', '2008(第二批)', '2014(第四批)'];
 
 function submit() {
-    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces)
+    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap)
 }
 
 </script>

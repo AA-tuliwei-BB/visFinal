@@ -8,6 +8,7 @@ export default createStore({
     selectedEthnicity: "",
     selectedKeyword: "",
     selectedProvinces: [],
+    updateHeatMap: false,
   },
   mutations: {
     setSelectedCategories(state, category) {
@@ -24,6 +25,9 @@ export default createStore({
     },
     setSelectedProvinces(state, province) {
       state.selectedProvinces = province;
+    },
+    setUpdateHeatMap(state, update) {
+      state.updateHeatMap = update;
     },
   },
 });

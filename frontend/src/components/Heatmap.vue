@@ -52,6 +52,11 @@ const selectedProvinces = computed({
     set: (value) => store.commit('setSelectedProvinces', value)
 })
 
+const updateHeatMap = computed({
+    get: () => store.state.updateHeatMap,
+    set: (value) => store.commit('setUpdateHeatMap', value)
+})
+
 echarts.use([TooltipComponent, VisualMapComponent, MapChart, CanvasRenderer]);
 
 const mapChart = ref(null);
@@ -87,6 +92,27 @@ const handleCheckAll = (val) => {
 
 const provinces = ['上海', '云南', '内蒙古', '北京', '吉林', '四川', '天津', '宁夏', '安徽', '山东', '山西', '广东', '广西', '新疆', '江苏', '江西', '河北', '河南', '浙江', '海南', '湖北', '湖南', '澳门', '甘肃', '福建', '西藏', '贵州', '辽宁', '重庆', '陕西', '青海', '香港', '黑龙江']
 
+watch(updateHeatMap, async (val) => {
+    const jsonData = await getHeat();
+
+    const mapData = provinces.map(province => {
+        const item = jsonData.data.find(item => item.province === province);
+        return {
+            name: province,
+            value: item ? item.heat : 0,
+        };
+    });
+
+    const chart = echarts.getInstanceByDom(mapChart.value);
+    const option = chart.getOption();
+    option.series[0].data = mapData;
+    let maxVal = Math.max(...mapData.map(item => item.value));
+    option.visualMap[0].max = maxVal;
+    option.visualMap[0].range = [0, maxVal];
+    console.log(option.visualMap[0])
+    chart.setOption(option, true);
+    updateHeatMap.value = false;
+})
 onMounted(async () => {
     const chart = echarts.init(mapChart.value);
 
@@ -94,11 +120,14 @@ onMounted(async () => {
 
     const jsonData = await getHeat();
 
-    const mapData = jsonData.data.map(item => ({
-        name: item.province,
-        value: item.heat,
-
-    }));
+    const mapData = provinces.map(province => {
+        const item = jsonData.data.find(item => item.province === province);
+        return {
+            name: province,
+            value: item ? item.heat : 0,
+        };
+    });
+    let maxVal = Math.max(...mapData.map(item => item.value));
 
     let option = {
         tooltip: {
@@ -106,10 +135,11 @@ onMounted(async () => {
         },
         visualMap: {
             min: 0,
-            max: 300,
+            max: maxVal,
             left: 'left',
             top: 'bottom',
             text: ['High', 'Low'],
+            range: [0, maxVal],
             inRange: {
                 color: ['white', 'blue']
             },
@@ -160,7 +190,7 @@ onMounted(async () => {
 });
 
 function submit() {
-    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces);
+    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap);
 }
 
 function updateMap() {
