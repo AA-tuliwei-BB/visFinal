@@ -32,12 +32,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import Header from './Header.vue'
 import Filter from './filter.vue';
 import Viewbox from './viewbox/Viewbox.vue'
 import Heatmap from './Heatmap.vue'
+import request from '@/utils/request.js'
 const subTitle = ref("子标题");
+
+onMounted(async () => {
+    const initJsonString = '{"category":["all"],"batch":["all"],"ethnic":"","keyword":"","province":["all"]}';
+    await request.post("/filter", initJsonString)
+});
+
 </script>
 
 
