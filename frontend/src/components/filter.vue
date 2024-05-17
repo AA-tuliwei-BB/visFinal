@@ -1,32 +1,34 @@
 <template>
-    <div class="filterContainer">
-        <span class="filterTitle">类别：</span>
-        <el-select filterable class="filterItem" v-model="selectedCategories" multiple collapse-tags
-            collapse-tags-tooltip placeholder="请选择">
-            <el-option v-for="(item, index) in categories" :key="index" :label="item" :value="index">
-            </el-option>
-        </el-select>
-    </div>
+    <div class="allFilterContainer">
+        <div class="filterContainer">
+            <span class="filterTitle">类别： </span>
+            <el-select filterable class="filterItem" v-model="selectedCategories" multiple collapse-tags
+                collapse-tags-tooltip placeholder="请选择">
+                <el-option v-for="(item, index) in categories" :key="index" :label="item" :value="index">
+                </el-option>
+            </el-select>
+        </div>
 
-    <div class="filterContainer">
-        <span class="filterTitle">批次：</span>
-        <el-select filterable class="filterItem" v-model="selectedBatches" multiple collapse-tags collapse-tags-tooltip
-            placeholder="请选择">
-            <el-option v-for="(item, index) in declarationTimes" :key="index" :label="item" :value="index">
-            </el-option>
-        </el-select>
-    </div>
+        <div class="filterContainer">
+            <span class="filterTitle">批次： </span>
+            <el-select filterable class="filterItem" v-model="selectedBatches" multiple collapse-tags
+                collapse-tags-tooltip placeholder="请选择">
+                <el-option v-for="(item, index) in declarationTimes" :key="index" :label="item" :value="index">
+                </el-option>
+            </el-select>
+        </div>
 
-    <div class="filterContainer">
-        <span class="filterTitle">民族：</span>
-        <el-input v-model="selectedEthnicity" class="inputItem" placeholder="请输入" clearable />
-    </div>
+        <div class="filterContainer">
+            <span class="filterTitle">民族： </span>
+            <el-input v-model="selectedEthnicity" class="inputItem" placeholder="请输入" clearable />
+        </div>
 
-    <div class="filterContainer">
-        <span class="filterTitle">关键字：</span>
-        <el-input v-model="selectedKeyword" class="inputItem" placeholder="请输入" clearable />
+        <div class="filterContainer">
+            <span class="filterTitle">关键字： </span>
+            <el-input v-model="selectedKeyword" class="inputItem" placeholder="请输入" clearable />
+        </div>
+        <el-button type="primary" class="submitButton" @click="submit">提交</el-button>
     </div>
-    <el-button type="primary" class="submitButton" @click="submit">提交</el-button>
 </template>
 
 
@@ -78,6 +80,13 @@ function submit() {
 </script>
 
 <style scoped>
+.allFilterContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    align-items: center;
+}
+
 .filterContainer {
     display: flex;
     align-items: center;
@@ -85,23 +94,21 @@ function submit() {
 
 .filterTitle {
     color: white;
-    margin: 1vw;
+    margin: 1.5vh 0.5vw 1.5vh 1vw;
     width: 15%;
-    flex-direction: row;
-
 }
 
 .inputItem {
-    width: 75%;
+    width: 70%;
 }
 
 .filterItem {
-    width: 75%;
+    width: 70%;
 }
 
 .submitButton {
     position: absolute;
-    right: 3.6%;
-    top: 8%;
+    right: 4.3%;
+    top: 15%;
 }
 </style>

@@ -4,28 +4,27 @@
         <!-- 用两个box作为示例，具体使用请自行更改 -->
         <div>
             <div class="container">
-                <div class="box">
+                <div class="filterBox">
                     <Viewbox title="筛选器" :boxb="true">
                         <Filter />
                     </Viewbox>
                 </div>
-                <div class="box">
-                    <Viewbox :title="subTitle" :boxb="true" />
+                <div class="listBox">
+                    <Viewbox title="项目列表" :boxb="true" />
                 </div>
-                <div class="box">
+                <div class="chartBox">
                     <Viewbox title="图表展示" :boxb="true">
-
                     </Viewbox>
                 </div>
             </div>
             <div class="container">
-                <div class="box">
+                <div class="mapBox">
                     <Viewbox title="中国地图" :boxb="true">
                         <Heatmap />
                     </Viewbox>
                 </div>
-                <div class="box">
-                    <Viewbox title="测试子标题" :boxb="true" />
+                <div class="relationshipBox">
+                    <Viewbox title="关系图" :boxb="true" />
                 </div>
             </div>
 
@@ -40,6 +39,7 @@ import Filter from './filter.vue';
 import Viewbox from './viewbox/Viewbox.vue'
 import Heatmap from './Heatmap.vue'
 import request from '@/utils/request.js'
+import Charts from './Charts.vue'
 const subTitle = ref("子标题");
 
 onMounted(async () => {
@@ -65,7 +65,47 @@ onMounted(async () => {
 .box {
     flex: 1;
     /* 每个子元素占据相等的空间 */
-    height: 42vh;
+    height: 44vh;
     margin: 0.5vw;
+}
+
+.mapBox {
+    position: absolute;
+    left: 0.5%;
+    top: 30.5%;
+    width: 49%;
+    height: 69%;
+}
+
+.filterBox {
+    position: absolute;
+    left: 0.5%;
+    top: 10.5%;
+    width: 49%;
+    height: 19%;
+}
+
+.relationshipBox {
+    position: absolute;
+    left: 50.5%;
+    top: 10.5%;
+    width: 29%;
+    height: 44%;
+}
+
+.chartBox {
+    position: absolute;
+    left: 80.5%;
+    top: 10.5%;
+    width: 19%;
+    height: 44%;
+}
+
+.listBox {
+    position: absolute;
+    left: 50.5%;
+    top: 55.5%;
+    width: 49%;
+    height: 44%;
 }
 </style>
