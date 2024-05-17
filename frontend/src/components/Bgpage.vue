@@ -13,7 +13,9 @@
                     <Viewbox :title="subTitle" :boxb="true" />
                 </div>
                 <div class="box">
-                    <Viewbox :title="subTitle" :boxb="true" />
+                    <Viewbox title="图表展示" :boxb="true">
+
+                    </Viewbox>
                 </div>
             </div>
             <div class="container">

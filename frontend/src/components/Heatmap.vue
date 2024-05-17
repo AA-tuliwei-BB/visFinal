@@ -96,10 +96,14 @@ watch(updateHeatMap, async (val) => {
     const jsonData = await getHeat();
 
     const mapData = provinces.map(province => {
-        const item = jsonData.data.find(item => item.province === province);
+        let value = 0;
+        if (jsonData && jsonData.data) {
+            const item = jsonData.data.find(item => item.province === province);
+            value = item ? item.heat : 0;
+        }
         return {
             name: province,
-            value: item ? item.heat : 0,
+            value: value,
         };
     });
 
@@ -107,8 +111,8 @@ watch(updateHeatMap, async (val) => {
     const option = chart.getOption();
     option.series[0].data = mapData;
     let maxVal = Math.max(...mapData.map(item => item.value));
-    option.visualMap[0].max = maxVal;
-    option.visualMap[0].range = [0, maxVal];
+    option.visualMap[0].max = maxVal + 1;
+    option.visualMap[0].range = [0, maxVal + 1];
     console.log(option.visualMap[0])
     chart.setOption(option, true);
     updateHeatMap.value = false;
@@ -119,12 +123,15 @@ onMounted(async () => {
     echarts.registerMap('china', chinaMapData);
 
     const jsonData = await getHeat();
-
     const mapData = provinces.map(province => {
-        const item = jsonData.data.find(item => item.province === province);
+        let value = 0;
+        if (jsonData && jsonData.data) {
+            const item = jsonData.data.find(item => item.province === province);
+            value = item ? item.heat : 0;
+        }
         return {
             name: province,
-            value: item ? item.heat : 0,
+            value: value,
         };
     });
     let maxVal = Math.max(...mapData.map(item => item.value));
@@ -135,7 +142,7 @@ onMounted(async () => {
         },
         visualMap: {
             min: 0,
-            max: maxVal,
+            max: maxVal + 1,
             left: 'left',
             top: 'bottom',
             text: ['High', 'Low'],
