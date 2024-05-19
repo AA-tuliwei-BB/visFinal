@@ -58,6 +58,11 @@ const updateHeatMap = computed({
     set: (value) => store.commit('setUpdateHeatMap', value)
 })
 
+const updateCharts = computed({
+    get: () => store.state.updateCharts,
+    set: (value) => store.commit('setUpdateCharts', value)
+})
+
 echarts.use([TooltipComponent, VisualMapComponent, MapChart, CanvasRenderer]);
 
 const mapChart = ref(null);
@@ -113,7 +118,13 @@ watch(updateHeatMap, async (val) => {
     let maxVal = Math.max(...mapData.map(item => item.value));
     option.visualMap[0].max = maxVal + 1;
     option.visualMap[0].range = [0, maxVal + 1];
-    console.log(option.visualMap[0])
+    selectedProvinces.value.forEach(provinceName => {
+        const dataIndex = option.series[0].data.findIndex(item => item.name === provinceName);
+        option.series[0].data[dataIndex].itemStyle = {
+            borderColor: 'purple', // 选中时的边框颜色
+            borderWidth: 3 // 选中时的边框宽度
+        };
+    });
     chart.setOption(option, true);
     updateHeatMap.value = false;
 })
@@ -197,7 +208,7 @@ onMounted(async () => {
 });
 
 function submit() {
-    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap);
+    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap, updateCharts);
 }
 
 function updateMap() {

@@ -7,7 +7,8 @@ export async function postFilter(
   selectedEthnicity,
   selectedKeyword,
   selectedProvinces,
-  updateHeatMap
+  updateHeatMap,
+  updateCharts
 ) {
   let selectedCategoriesStrings = selectedCategories.value.map(
     (index) => categories[index]
@@ -38,8 +39,17 @@ export async function postFilter(
   console.log(jsonString);
   await request.post("/filter", jsonString);
   updateHeatMap.value = true;
+  updateCharts.value = true;
 }
 
 export function getHeat() {
   return request.get("/heat");
+}
+
+export function getChart(type) {
+  return request.get("/chart", {
+    params: {
+      type: type,
+    },
+  });
 }

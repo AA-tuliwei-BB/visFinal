@@ -74,10 +74,13 @@ const updateHeatMap = computed({
     set: (value) => store.commit('setUpdateHeatMap', value)
 })
 
-
+const updateCharts = computed({
+    get: () => store.state.updateCharts,
+    set: (value) => store.commit('setUpdateCharts', value)
+})
 
 function submit() {
-    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap)
+    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap, updateCharts)
 }
 
 </script>

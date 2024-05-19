@@ -9,6 +9,7 @@ export default createStore({
     selectedKeyword: "",
     selectedProvinces: [],
     updateHeatMap: false,
+    updateCharts: false,
   },
   mutations: {
     setSelectedCategories(state, category) {
@@ -28,6 +29,9 @@ export default createStore({
     },
     setUpdateHeatMap(state, update) {
       state.updateHeatMap = update;
+    },
+    setUpdateCharts(state, update) {
+      state.updateCharts = update;
     },
   },
 });

@@ -14,6 +14,7 @@
                 </div>
                 <div class="chartBox">
                     <Viewbox title="图表展示" :boxb="true">
+                        <Charts />
                     </Viewbox>
                 </div>
             </div>

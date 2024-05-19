@@ -1,214 +1,108 @@
 <template>
-
+    <el-radio-group v-model="chartType" class="groupItem">
+        <el-radio-button v-for="(value, key) in groups" :key="key" :label="key" :value="value" />
+    </el-radio-group>
+    <div ref="variousChart" class="chart"></div>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import * as echarts from 'echarts/core';
-import { MapChart } from 'echarts/charts';
-import { TooltipComponent, VisualMapComponent } from 'echarts/components';
+import { PieChart, BarChart } from 'echarts/charts';
+import { TooltipComponent, VisualMapComponent, LegendComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
-import chinaMapData from '@/assets/china.json';
-import { getHeat, postFilter } from '@/api/api';
+import { getChart } from '@/api/api';
 import { useStore } from 'vuex'
 import { computed, watch } from 'vue'
-import { provinces } from '@/utils/constants'
+import 'echarts-wordcloud';
 
 const store = useStore()
 
-const selectedCategories = computed({
-    get: () => store.state.selectedCategories,
-    set: (value) => store.commit('setSelectedCategories', value)
+const groups = {
+    "类别": "category",
+    "申报批次": "batch",
+    "民族": "ethnic",
+    "关键词": "keyword",
+};
+
+let chartType = ref("category");
+
+const updateCharts = computed({
+    get: () => store.state.updateCharts,
+    set: (value) => store.commit('setUpdateCharts', value)
 })
 
-const selectedEthnicity = computed({
-    get: () => store.state.selectedEthnicity,
-    set: (value) => store.commit('setSelectedEthnicity', value)
-})
+echarts.use([TooltipComponent, VisualMapComponent, PieChart, LegendComponent, BarChart, CanvasRenderer]);
 
-const selectedBatches = computed({
-    get: () => store.state.selectedBatches,
-    set: (value) => store.commit('setSelectedBatches', value)
-})
+const variousChart = ref(null);
+let chart;
 
-const selectedKeyword = computed({
-    get: () => store.state.selectedKeyword,
-    set: (value) => store.commit('setSelectedKeyword', value)
-})
-
-const selectedProvinces = computed({
-    get: () => store.state.selectedProvinces,
-    set: (value) => store.commit('setSelectedProvinces', value)
-})
-
-const updateHeatMap = computed({
-    get: () => store.state.updateHeatMap,
-    set: (value) => store.commit('setUpdateHeatMap', value)
-})
-
-echarts.use([TooltipComponent, VisualMapComponent, MapChart, CanvasRenderer]);
-
-const mapChart = ref(null);
-const checkAll = ref(false)
-const indeterminate = ref(false)
-
-const response = (val) => {
-    console.log(val)
-    if (val.length === 0) {
-        checkAll.value = false
-        indeterminate.value = false
-    } else if (val.length === provinces.length) {
-        checkAll.value = true
-        indeterminate.value = false
-    } else {
-        indeterminate.value = true
-    }
-    updateMap();
-}
-
-watch(selectedProvinces, response)
-
-
-
-const handleCheckAll = (val) => {
-    indeterminate.value = false
-    if (val) {
-        selectedProvinces.value = provinces.map((_) => _)
-    } else {
-        selectedProvinces.value = []
-    }
-}
-
-
-
-watch(updateHeatMap, async (val) => {
-    const jsonData = await getHeat();
-
-    const mapData = provinces.map(province => {
-        let value = 0;
-        if (jsonData && jsonData.data) {
-            const item = jsonData.data.find(item => item.province === province);
-            value = item ? item.heat : 0;
-        }
-        return {
-            name: province,
-            value: value,
-        };
-    });
-
-    const chart = echarts.getInstanceByDom(mapChart.value);
-    const option = chart.getOption();
-    option.series[0].data = mapData;
-    let maxVal = Math.max(...mapData.map(item => item.value));
-    option.visualMap[0].max = maxVal + 1;
-    option.visualMap[0].range = [0, maxVal + 1];
-    console.log(option.visualMap[0])
-    chart.setOption(option, true);
-    updateHeatMap.value = false;
-})
-onMounted(async () => {
-    const chart = echarts.init(mapChart.value);
-
-    echarts.registerMap('china', chinaMapData);
-
-    const jsonData = await getHeat();
-    const mapData = provinces.map(province => {
-        let value = 0;
-        if (jsonData && jsonData.data) {
-            const item = jsonData.data.find(item => item.province === province);
-            value = item ? item.heat : 0;
-        }
-        return {
-            name: province,
-            value: value,
-        };
-    });
-    let maxVal = Math.max(...mapData.map(item => item.value));
-
-    let option = {
-        tooltip: {
-            trigger: 'item'
-        },
-        visualMap: {
-            min: 0,
-            max: maxVal + 1,
-            left: 'left',
-            top: 'bottom',
-            text: ['High', 'Low'],
-            range: [0, maxVal],
-            inRange: {
-                color: ['white', 'blue']
-            },
-            calculable: true,
-            textStyle: {
-                color: "white"
-            }
-        },
-        series: [
-            {
-                name: '中国',
-                type: 'map',
-                map: 'china',
-                roam: true,
-                selectedMode: false,
-                data: mapData, // 使用转换后的数据
-                emphasis: {
-                    itemStyle: {
-                        areaColor: null,
-                        borderColor: "purple",
-                        borderWidth: 1
-                    },
+const update = async (val) => {
+    const jsonData = await getChart(chartType.value);
+    let chartName = Object.entries(groups).find(([key, value]) => value === chartType.value)[0];
+    let option;
+    if (chartName === "关键词") {
+        option = {
+            series: [
+                {
+                    name: chartName,
+                    type: 'wordCloud',
+                    data: jsonData.data,
+                    shape: 'circle',
+                    gridSize: 1,
+                    sizeRange: [12, 55],
+                    rotationRange: [-90, 90],
+                    drawOutOfBound: false,
+                    textStyle: {
+                        normal: {
+                            color: function () {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160)
+                                ].join(',') + ')';
+                            }
+                        },
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: '#333'
+                        }
+                    }
                 }
-            }
-        ]
-    };
-
+            ]
+        };
+    } else {
+        option = {
+            tooltip: {
+                trigger: 'item'
+            },
+            series: [
+                {
+                    name: chartName,
+                    type: 'pie',
+                    data: jsonData.data,
+                    radius: '50%',
+                    label: {
+                        color: '#ffffff'
+                    }
+                }
+            ]
+        };
+    }
+    console.log(option);
     chart.setOption(option);
+    updateCharts.value = false;
+}
 
+watch(updateCharts, update)
 
-    // 添加click事件监听器
-    chart.on('click', function (params) {
-        const provinceName = params.name;
-        option = chart.getOption();
-        // 获取省份在selectedProvinces数组中的索引
-        const selectedIndex = selectedProvinces.value.indexOf(provinceName);
-        // 获取省份在option.series[0].data数组中的索引
-        const dataIndex = option.series[0].data.findIndex(item => item.name === provinceName);
+watch(chartType, update)
 
-        if (selectedIndex > -1) {
-            selectedProvinces.value.splice(selectedIndex, 1);
-        } else {
-            selectedProvinces.value.push(provinceName);
-        }
-
-        response(selectedProvinces.value)
-    });
+onMounted(async () => {
+    chart = echarts.init(variousChart.value);
+    await update(chartType.value)
 });
 
-function submit() {
-    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap);
-}
-
-function updateMap() {
-    const chart = echarts.getInstanceByDom(mapChart.value);
-    const option = chart.getOption();
-
-    // 清除所有省份的自定义样式
-    option.series[0].data.forEach(item => {
-        item.itemStyle = {};
-    });
-
-    // 为选中的省份设置自定义样式
-    selectedProvinces.value.forEach(provinceName => {
-        const dataIndex = option.series[0].data.findIndex(item => item.name === provinceName);
-        option.series[0].data[dataIndex].itemStyle = {
-            borderColor: 'purple', // 选中时的边框颜色
-            borderWidth: 3 // 选中时的边框宽度
-        };
-    });
-
-    chart.setOption(option); // 更新选项
-}
 </script>
 
 <style scoped>
@@ -226,10 +120,16 @@ function updateMap() {
     top: 6%;
 }
 
-.filterItem {
+.groupItem {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart {
     position: absolute;
-    left: 25%;
-    top: 6%;
-    width: 60%;
+    top: 25%;
+    height: 75%;
+    width: 100%;
 }
 </style>
