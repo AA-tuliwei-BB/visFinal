@@ -1,25 +1,5 @@
 import request from "@/utils/request";
-
-const categories = [
-  "民间文学",
-  "传统音乐",
-  "传统舞蹈",
-  "传统戏剧",
-  "曲艺",
-  "传统体育、游艺与杂技",
-  "传统美术",
-  "传统技艺",
-  "传统医药",
-  "民俗",
-];
-
-const declarationTimes = [
-  "2006(第一批)",
-  "2011(第三批)",
-  "2021(第五批)",
-  "2008(第二批)",
-  "2014(第四批)",
-];
+import { categories, declarationTimes } from "@/utils/constants";
 
 export async function postFilter(
   selectedCategories,
@@ -46,11 +26,11 @@ export async function postFilter(
   if (selectedProvincesStrings.length === 0) {
     selectedProvincesStrings = ["all"];
   }
-
+  let selectedEthnicityStrings = selectedEthnicity.value.join(" ");
   const result = {
     category: selectedCategoriesStrings,
     batch: selectedBatchesStrings,
-    ethnic: selectedEthnicity.value,
+    ethnic: selectedEthnicityStrings,
     keyword: selectedKeyword.value,
     province: selectedProvincesStrings,
   };

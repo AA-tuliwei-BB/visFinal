@@ -24,6 +24,7 @@ import chinaMapData from '@/assets/china.json';
 import { getHeat, postFilter } from '@/api/api';
 import { useStore } from 'vuex'
 import { computed, watch } from 'vue'
+import { provinces } from '@/utils/constants';
 
 const store = useStore()
 
@@ -90,7 +91,6 @@ const handleCheckAll = (val) => {
     }
 }
 
-const provinces = ['上海', '云南', '内蒙古', '北京', '吉林', '四川', '天津', '宁夏', '安徽', '山东', '山西', '广东', '广西', '新疆', '江苏', '江西', '河北', '河南', '浙江', '海南', '湖北', '湖南', '澳门', '甘肃', '福建', '西藏', '贵州', '辽宁', '重庆', '陕西', '青海', '香港', '黑龙江']
 
 watch(updateHeatMap, async (val) => {
     const jsonData = await getHeat();
@@ -233,14 +233,14 @@ function updateMap() {
 
 .submitButton {
     position: absolute;
-    right: 3%;
-    top: 6%;
+    right: 4.3%;
+    top: 3.5%;
 }
 
 .filterItem {
     position: absolute;
     left: 25%;
-    top: 6%;
+    top: 3.5%;
     width: 60%;
 }
 </style>

@@ -25,12 +25,12 @@ body {
 }
 .in-title {
   width: 100%;
-  height: 40px;
+  height: 4vh;
   color: #61d2f7;
-  padding: 10px 10px 10px 20px;
+  padding: 1vh 1vw;
   font-weight: bold;
   font-size: 1.7rem;
-  margin-top: 10px;
+  margin-top: 1vh;
   z-index: 1000;
 }
 .main-title {

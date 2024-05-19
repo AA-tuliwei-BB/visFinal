@@ -20,7 +20,11 @@
 
         <div class="filterContainer">
             <span class="filterTitle">民族： </span>
-            <el-input v-model="selectedEthnicity" class="inputItem" placeholder="请输入" clearable />
+            <el-select filterable class="filterItem" v-model="selectedEthnicity" multiple collapse-tags
+                collapse-tags-tooltip placeholder="请选择">
+                <el-option v-for="item in ethnicities" :key="item" :label="item" :value="item">
+                </el-option>
+            </el-select>
         </div>
 
         <div class="filterContainer">
@@ -36,6 +40,7 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { postFilter } from '@/api/api';
+import { categories, declarationTimes, ethnicities } from '@/utils/constants'
 
 const store = useStore()
 
@@ -69,9 +74,7 @@ const updateHeatMap = computed({
     set: (value) => store.commit('setUpdateHeatMap', value)
 })
 
-const categories = ['民间文学', '传统音乐', '传统舞蹈', '传统戏剧', '曲艺', '传统体育、游艺与杂技', '传统美术', '传统技艺', '传统医药', '民俗'];
 
-const declarationTimes = ['2006(第一批)', '2011(第三批)', '2021(第五批)', '2008(第二批)', '2014(第四批)'];
 
 function submit() {
     postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap)
@@ -96,6 +99,7 @@ function submit() {
     color: white;
     margin: 1.5vh 0.5vw 1.5vh 1vw;
     width: 15%;
+    font-size: 0.9vw;
 }
 
 .inputItem {
