@@ -31,7 +31,7 @@ func get_chart_keyword() (string, error) {
 	}
 	defer rows.Close()
 
-	return get_keywords(rows, 20)
+	return get_keywords(rows, 100)
 }
 
 func get_chart(typename string) (string, error) {

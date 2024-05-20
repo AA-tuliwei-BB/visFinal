@@ -8,7 +8,7 @@ import (
 )
 
 func get_keywords(rows *sql.Rows, limit int) (string, error) {
-	// 将得到的keyword通过空格分割后统计，取出现次数最多的前20个
+	// 将得到的keyword通过空格分割后统计，取出现次数最多的前limit个
 	keyword_map := make(map[string]int)
 	for rows.Next() {
 		var keyword string
