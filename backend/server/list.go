@@ -10,6 +10,8 @@ import (
 //        data.name AS name,
 //        data.category AS category,
 //        data.batch AS batch,
+//        data.ethnic AS ethnic,
+//        data.keyword AS keyword,
 //        GROUP_CONCAT(DISTINCT data.province, ', ') AS province,
 //        GROUP_CONCAT(DISTINCT data.description, char(10) ||
 // 				'And(Exception): ') AS description,
@@ -29,6 +31,8 @@ type ListResponse struct {
 		Uid         int    `json:"id"`
 		Name        string `json:"name"`
 		Batch       string `json:"batch"`
+		Ethnic      string `json:"ethnic"`
+		Keyword     string `json:"keyword"`
 		Category    string `json:"category"`
 		Province    string `json:"province"`
 		Description string `json:"description"`
@@ -41,6 +45,8 @@ func get_list(page int, size int) (string, error) {
 		"data.name AS name, " +
 		"data.category AS category, " +
 		"data.batch AS batch, " +
+		"data.ethnic AS ethnic, " +
+		"data.keyword AS keyword, " +
 		"GROUP_CONCAT(DISTINCT data.province) AS province, " +
 		// rtrim(replace(group_concat(DISTINCT column1||'@!'), '@!,', '|'),'@!')
 		"replace(GROUP_CONCAT(DISTINCT " +
@@ -74,9 +80,11 @@ func get_list(page int, size int) (string, error) {
 		var name string
 		var category string
 		var batch string
+		var ethnic string
+		var keyword string
 		var province string
 		var description string
-		err = rows.Scan(&uid, &name, &category, &batch, &province, &description)
+		err = rows.Scan(&uid, &name, &category, &batch, &ethnic, &keyword, &province, &description)
 		if err != nil {
 			return "", err
 		}
@@ -84,10 +92,12 @@ func get_list(page int, size int) (string, error) {
 			Uid         int    `json:"id"`
 			Name        string `json:"name"`
 			Batch       string `json:"batch"`
+			Ethnic      string `json:"ethnic"`
+			Keyword     string `json:"keyword"`
 			Category    string `json:"category"`
 			Province    string `json:"province"`
 			Description string `json:"description"`
-		}{Uid: uid, Name: name, Category: category, Batch: batch, Province: province, Description: description})
+		}{Uid: uid, Name: name, Category: category, Batch: batch, Province: province, Description: description, Keyword: keyword, Ethnic: ethnic})
 	}
 
 	// 将response转换为json格式
