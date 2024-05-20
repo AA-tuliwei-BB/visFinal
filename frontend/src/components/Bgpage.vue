@@ -10,7 +10,9 @@
                     </Viewbox>
                 </div>
                 <div class="listBox">
-                    <Viewbox title="项目列表" :boxb="true" />
+                    <Viewbox title="项目列表" :boxb="true">
+                        <List />
+                    </Viewbox>
                 </div>
                 <div class="chartBox">
                     <Viewbox title="图表展示" :boxb="true">
@@ -41,6 +43,7 @@ import Viewbox from './viewbox/Viewbox.vue'
 import Heatmap from './Heatmap.vue'
 import request from '@/utils/request.js'
 import Charts from './Charts.vue'
+import List from './List.vue'
 const subTitle = ref("子标题");
 
 onMounted(async () => {

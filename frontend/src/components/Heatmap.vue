@@ -63,6 +63,11 @@ const updateCharts = computed({
     set: (value) => store.commit('setUpdateCharts', value)
 })
 
+const updateList = computed({
+    get: () => store.state.updateList,
+    set: (value) => store.commit('setUpdateList', value)
+})
+
 echarts.use([TooltipComponent, VisualMapComponent, MapChart, CanvasRenderer]);
 
 const mapChart = ref(null);
@@ -208,7 +213,7 @@ onMounted(async () => {
 });
 
 function submit() {
-    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap, updateCharts);
+    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap, updateCharts, updateList);
 }
 
 function updateMap() {

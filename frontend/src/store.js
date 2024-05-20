@@ -10,6 +10,7 @@ export default createStore({
     selectedProvinces: [],
     updateHeatMap: false,
     updateCharts: false,
+    updateList: false,
   },
   mutations: {
     setSelectedCategories(state, category) {
@@ -32,6 +33,9 @@ export default createStore({
     },
     setUpdateCharts(state, update) {
       state.updateCharts = update;
+    },
+    setUpdateList(state, update) {
+      state.updateList = update;
     },
   },
 });

@@ -54,14 +54,8 @@ const update = async (val) => {
                     rotationRange: [-90, 90],
                     drawOutOfBound: false,
                     textStyle: {
-                        normal: {
-                            color: function () {
-                                return 'rgb(' + [
-                                    Math.round(Math.random() * 160),
-                                    Math.round(Math.random() * 160),
-                                    Math.round(Math.random() * 160)
-                                ].join(',') + ')';
-                            }
+                        color: function () {
+                            return 'yellow';
                         },
                         emphasis: {
                             shadowBlur: 10,
@@ -89,7 +83,6 @@ const update = async (val) => {
             ]
         };
     }
-    console.log(option);
     chart.setOption(option);
     updateCharts.value = false;
 }
