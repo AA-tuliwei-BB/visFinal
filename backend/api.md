@@ -93,9 +93,11 @@ None
         {
             "id": 1,
             "name": "name1", // 名字
+            "ethnic": "ethnic1", // 民族
             "category": "category1", // 种类
             "batch": "batch1", // 批次
             "province": "province1", // 省份，没准会用到
+            "keyword": "keyword_string", // 关键词，可能有多个，用' '分隔
             "description": "一大段描述... ", // 描述中间可能有分段，用'\n'换行符表示
         },
         ...
