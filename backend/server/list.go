@@ -27,6 +27,7 @@ import (
 // LIMIT ? OFFSET ?;
 
 type ListResponse struct {
+	Num  int `json:"num"`
 	Data []struct {
 		Uid         int    `json:"id"`
 		Name        string `json:"name"`
@@ -37,6 +38,40 @@ type ListResponse struct {
 		Province    string `json:"province"`
 		Description string `json:"description"`
 	} `json:"data"`
+}
+
+func get_num() (int, error) {
+	// SELECT COUNT(*) FROM
+	// (
+	//     SELECT COUNT(*) FROM data
+	//     data WHERE -- get filter --
+	//     GROUP BY data.name, data.batch
+	// )
+
+	pred_str, args := get_predicate()
+	sql := "SELECT COUNT(*) FROM " +
+		"( " +
+		"    SELECT COUNT(*) FROM data " +
+		"    WHERE " + pred_str + " " +
+		"    GROUP BY data.name, data.batch " +
+		") AS t1;"
+	db := database.GetDB()
+	rows, err := db.Query(sql, args...)
+	if err != nil {
+		return 0, err
+	}
+	defer rows.Close()
+
+	// 查询数据库，获取response
+	var num int
+	for rows.Next() {
+		err = rows.Scan(&num)
+		if err != nil {
+			return 0, err
+		}
+	}
+
+	return num, err
 }
 
 func get_list(page int, size int) (string, error) {
@@ -98,6 +133,12 @@ func get_list(page int, size int) (string, error) {
 			Province    string `json:"province"`
 			Description string `json:"description"`
 		}{Uid: uid, Name: name, Category: category, Batch: batch, Province: province, Description: description, Keyword: keyword, Ethnic: ethnic})
+	}
+
+	// 获取数据总数
+	response.Num, err = get_num()
+	if err != nil {
+		return "", err
 	}
 
 	// 将response转换为json格式
