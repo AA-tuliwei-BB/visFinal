@@ -56,11 +56,31 @@ export function getChart(type) {
   });
 }
 
-export function getList(page, pageSize) {
-  return request.get("/list", {
+export async function getList(page, pageSize) {
+  const response = await request.get("/list", {
     params: {
       page: page,
       size: pageSize,
     },
   });
+  const declarationTimes = [
+    "2006(第一批)",
+    "2011(第三批)",
+    "2021(第五批)",
+    "2008(第二批)",
+    "2014(第四批)",
+  ];
+  const myMap = new Map(
+    declarationTimes.map((item) => {
+      const batch = item.match(/\((.*?)\)/)[1];
+      return [item, batch];
+    })
+  );
+
+  response.data.forEach((item_1) => {
+    if (myMap.has(item_1.batch)) {
+      item_1.batch = myMap.get(item_1.batch);
+    }
+  });
+  return response;
 }

@@ -1,8 +1,8 @@
 <template>
-    <el-table ref="tableRef" class="table" :data="exhibitData" highlight-current-row border stripe
-        @current-change="updateDetails">
+    <el-table ref="tableRef" row-class-name="tableItem" header-cell-class-name="headerRow" class="table"
+        :data="exhibitData" highlight-current-row border show-overflow-tooltip @current-change="updateDetails">
         <el-table-column v-for="item in columns" :prop="item.property" :label="item.label" :width="item.width"
-            class="tableItem" />
+            header-align="center" align="center" />
     </el-table>
     <div class="pagination">
         <el-pagination layout="prev, pager, next" :total="totalSize" :sizes="pageSize" :pager-count="9"
@@ -33,23 +33,23 @@ const columns =
         {
             property: "name",
             label: "名称",
-            width: "140"
+            width: "176"
         }, {
             property: "ethnic",
             label: "民族",
-            width: "60"
+            width: "68"
         }, {
             property: "category",
             label: "种类",
-            width: "90"
+            width: "82"
         }, {
             property: "batch",
             label: "批次",
-            width: "110"
+            width: "68"
         }, {
             property: "province",
             label: "省份",
-            width: "60"
+            width: "68"
         }
     ];
 
@@ -60,7 +60,7 @@ const updateList = computed({
 })
 
 const tableRef = ref(null);
-const pageSize = 8;
+const pageSize = 7;
 const totalSize = ref(0);
 const currentPage = ref(1);
 const activeNames = ref(null);
@@ -68,8 +68,8 @@ const activeNames = ref(null);
 const fullData = ref(null);
 const exhibitData = ref(null);
 const nullData = {
-    keyword: "",
-    description: ""
+    keyword: " ",
+    description: " "
 }
 const displayData = ref(nullData);
 
@@ -81,12 +81,16 @@ const update = async (val) => {
 }
 
 const updateDetails = (val) => {
-    displayData.value = val;
-    if (!displayData.keyword) {
-        displayData.keyword = "";
-    }
-    if (!displayData.description) {
-        displayData.description = "";
+    if (val) {
+        displayData.value = val;
+        if (!displayData.value.keyword) {
+            displayData.value.keyword = " ";
+        }
+        if (!displayData.value.description) {
+            displayData.value.description = " ";
+        }
+    } else {
+        displayData.value = nullData;
     }
 }
 
@@ -106,19 +110,23 @@ onMounted(async () => {
 <style scoped>
 .table {
     position: absolute;
-    top: 15.5%;
+    top: 15%;
     width: 49.5%;
-    height: 75%;
-
+    height: 76%;
+    left: 0.5%;
 }
 
-.tableItem {
-    font-size: 2vh;
-}
+/* :deep() .headerRow {
+    background-color: aqua !important;
+} */
+
+/* :deep() .tableItem {
+    background-color: aqua !important;
+} */
 
 .pagination {
     position: absolute;
-    top: 90.5%;
+    top: 91.5%;
     width: 50%;
     display: flex;
     justify-content: center;
@@ -127,8 +135,8 @@ onMounted(async () => {
 .details {
     position: absolute;
     left: 50.5%;
-    top: 15.5%;
+    top: 15%;
     width: 48.5%;
-    height: 83%;
+    height: 84%;
 }
 </style>
