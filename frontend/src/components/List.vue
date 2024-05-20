@@ -1,11 +1,12 @@
 <template>
     <el-table ref="tableRef" row-class-name="tableItem" header-cell-class-name="headerRow" class="table"
-        :data="exhibitData" highlight-current-row border show-overflow-tooltip @current-change="updateDetails">
+        :data="exhibitData" highlight-current-row show-overflow-tooltip @current-change="updateDetails"
+        :row-style="{ backgroundColor: '#f5f5f5' }">
         <el-table-column v-for="item in columns" :prop="item.property" :label="item.label" :width="item.width"
             header-align="center" align="center" />
     </el-table>
     <div class="pagination">
-        <el-pagination layout="prev, pager, next" :total="totalSize" :sizes="pageSize" :pager-count="9"
+        <el-pagination small layout="prev, pager, next" :total="totalSize" :sizes="pageSize" :pager-count="9"
             v-model:current-page="currentPage" @current-change="update" />
     </div>
     <el-scrollbar class="details">
@@ -109,34 +110,62 @@ onMounted(async () => {
 
 <style scoped>
 .table {
+    background-color: #00000020;
     position: absolute;
     top: 15%;
-    width: 49.5%;
-    height: 76%;
-    left: 0.5%;
+    /*max-width: 49.5%;*/
+    width: 462px;
+    height: 320px;
+    left: 2%;
+    /* 内容居中 */
+    display: flex;
+    justify-content: center;
 }
 
-/* :deep() .headerRow {
-    background-color: aqua !important;
-} */
+.el-table {
+    --el-table-tr-bg-color: transparent;
+    --el-table-header-bg-color: rgba(255, 255, 255, 0.1);
 
-/* :deep() .tableItem {
-    background-color: aqua !important;
-} */
+    --el-table-border-color: rgba(255, 255, 255, 0.2);
+
+    --el-table-row-hover-bg-color: rgba(255, 255, 255, 0.1);
+    --el-table-current-row-bg-color: rgba(255, 255, 255, 0.15);
+}
+
+:deep() .tableItem {
+    background-color: rgba(131, 168, 236, 0.1) !important;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.el-collapse {
+  --el-collapse-header-bg-color: rgba(255, 255, 255, 0.1); /* 修改为你想要的颜色 */
+  --el-collapse-border-color: rgba(255, 255, 255, 0.2);
+  --el-collapse-content-bg-color: rgba(255, 255, 255, 0.15);
+  --el-collapse-header-text-color: rgba(255, 255, 255, 0.5);
+  --el-collapse-content-text-color: rgba(255, 255, 255, 0.5);
+}
+
+.el-pagination {
+    --el-pagination-bg-color: transparent;
+    --el-pagination-button-color: gray;
+    --el-pagination-button-disabled-bg-color: transparent;
+}
 
 .pagination {
     position: absolute;
-    top: 91.5%;
-    width: 50%;
+    top: min(90%, 420px);
+    left: 20px;
+    width: 462px;
     display: flex;
     justify-content: center;
 }
 
 .details {
     position: absolute;
-    left: 50.5%;
+    left: 500px;
+    width: calc(98% - 500px);
     top: 15%;
-    width: 48.5%;
-    height: 84%;
+    height: 73%;
 }
+
 </style>
