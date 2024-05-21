@@ -113,3 +113,5 @@ export const provinces = [
   "香港",
   "黑龙江",
 ];
+
+export const keywordLimit = 10;

@@ -27,7 +27,9 @@
                     </Viewbox>
                 </div>
                 <div class="relationshipBox">
-                    <Viewbox title="关系图" :boxb="true" />
+                    <Viewbox title="关系图" :boxb="true">
+                        <Relationship />
+                    </Viewbox>
                 </div>
             </div>
 
@@ -44,6 +46,7 @@ import Heatmap from './Heatmap.vue'
 import request from '@/utils/request.js'
 import Charts from './Charts.vue'
 import List from './List.vue'
+import Relationship from './Relationship.vue';
 const subTitle = ref("子标题");
 
 onMounted(async () => {

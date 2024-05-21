@@ -11,6 +11,7 @@ export default createStore({
     updateHeatMap: false,
     updateCharts: false,
     updateList: false,
+    updateRelationship: false,
   },
   mutations: {
     setSelectedCategories(state, category) {
@@ -36,6 +37,9 @@ export default createStore({
     },
     setUpdateList(state, update) {
       state.updateList = update;
+    },
+    setUpdateRelationship(state, update) {
+      state.updateRelationship = update;
     },
   },
 });

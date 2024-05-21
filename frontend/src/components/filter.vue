@@ -84,8 +84,13 @@ const updateList = computed({
     set: (value) => store.commit('setUpdateList', value)
 })
 
+const updateRelationship = computed({
+    get: () => store.state.updateRelationship,
+    set: (value) => store.commit('setUpdateRelationship', value)
+})
+
 function submit() {
-    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap, updateCharts, updateList)
+    postFilter(selectedCategories, selectedBatches, selectedEthnicity, selectedKeyword, selectedProvinces, updateHeatMap, updateCharts, updateList, updateRelationship)
 }
 
 </script>

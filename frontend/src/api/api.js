@@ -1,5 +1,6 @@
 import request from "@/utils/request";
 import { categories, declarationTimes } from "@/utils/constants";
+import { keywordLimit } from "@/utils/constants";
 
 export async function postFilter(
   selectedCategories,
@@ -9,7 +10,8 @@ export async function postFilter(
   selectedProvinces,
   updateHeatMap,
   updateCharts,
-  updateList
+  updateList,
+  updateRelationship
 ) {
   let selectedCategoriesStrings = selectedCategories.value.map(
     (index) => categories[index]
@@ -42,6 +44,7 @@ export async function postFilter(
   updateHeatMap.value = true;
   updateCharts.value = true;
   updateList.value = true;
+  updateRelationship.value = true;
 }
 
 export function getHeat() {
@@ -83,4 +86,14 @@ export async function getList(page, pageSize) {
     }
   });
   return response;
+}
+
+export function getRel(type, value) {
+  return request.get("/rel", {
+    params: {
+      type: type,
+      name: value,
+      limit: keywordLimit,
+    },
+  });
 }
