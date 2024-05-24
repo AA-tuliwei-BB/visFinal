@@ -19,6 +19,7 @@ import (
 // INNER JOIN (
 //     SELECT project_number AS pid, COUNT(project_number) AS count
 //     FROM data
+//     WHERE -- get filter --
 //     GROUP BY pid
 // ) AS t1 ON data.project_number = t1.pid
 // WHERE -- get filter --
@@ -91,6 +92,7 @@ func get_list(page int, size int) (string, error) {
 		"INNER JOIN ( " +
 		"    SELECT project_number AS pid, COUNT(project_number) AS count " +
 		"    FROM data " +
+		"    WHERE " + pred_str + " " +
 		"    GROUP BY pid " +
 		") AS t1 ON data.project_number = t1.pid " +
 		"WHERE " + pred_str + " " +
@@ -98,6 +100,7 @@ func get_list(page int, size int) (string, error) {
 		"ORDER BY count DESC " +
 		"LIMIT ? OFFSET ?;"
 
+	args = append(args, args...)
 	args = append(args, size, (page-1)*size)
 
 	db := database.GetDB()

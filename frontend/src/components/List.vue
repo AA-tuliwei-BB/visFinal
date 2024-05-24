@@ -153,7 +153,7 @@ onMounted(async () => {
 
 .pagination {
     position: absolute;
-    top: min(90%, 420px);
+    top: min(93%, 420px);
     left: 20px;
     width: 462px;
     display: flex;
@@ -165,7 +165,7 @@ onMounted(async () => {
     left: 500px;
     width: calc(98% - 500px);
     top: 15%;
-    height: 73%;
+    height: min(320px, 73%);
 }
 
 </style>
