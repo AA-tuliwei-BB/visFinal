@@ -42,6 +42,7 @@ const update = async (val) => {
     let chartName = Object.entries(groups).find(([key, value]) => value === chartType.value)[0];
     let option;
     if (chartName === "关键词") {
+
         option = {
             series: [
                 {
@@ -83,7 +84,11 @@ const update = async (val) => {
             ]
         };
     }
-    chart.setOption(option);
+    if (jsonData.data) {
+        chart.setOption(option);
+    } else {
+        chart.clear();
+    }
     updateCharts.value = false;
 }
 
