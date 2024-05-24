@@ -15,7 +15,8 @@
                 {{ displayData.keyword }}
             </el-collapse-item>
             <el-collapse-item title="描述" name="2">
-                {{ displayData.description }}
+                <div v-html="displayData.description"></div>
+                <!-- {{ displayData.description }} -->
             </el-collapse-item>
         </el-collapse>
     </el-scrollbar>

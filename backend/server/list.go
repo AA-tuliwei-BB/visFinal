@@ -4,6 +4,7 @@ import (
 	"backend/database"
 	"encoding/json"
 	"fmt"
+	"strings"
 )
 
 // SELECT MIN(data.uid) AS uid,
@@ -75,6 +76,17 @@ func get_num() (int, error) {
 	return num, err
 }
 
+func handle_description(description string) string {
+	// 以'\n'分割description
+	descriptions := strings.Split(description, "\n")
+	// 将每个部分转为html的段落
+	for i, des := range descriptions {
+		descriptions[i] = "<p>" + des + "</p>"
+	}
+	// 将所有部分拼接起来
+	return strings.Join(descriptions, "")
+}
+
 func get_list(page int, size int) (string, error) {
 	pred_str, args := get_predicate()
 	sql := "SELECT MIN(data.uid) AS uid, " +
@@ -126,6 +138,7 @@ func get_list(page int, size int) (string, error) {
 		if err != nil {
 			return "", err
 		}
+		description = handle_description(description)
 		response.Data = append(response.Data, struct {
 			Uid         int    `json:"id"`
 			Name        string `json:"name"`
