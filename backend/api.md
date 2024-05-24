@@ -190,7 +190,6 @@ None
 
 ```json
 {
-    {
     "provinces": [
         {
             "name": "内蒙古"
@@ -217,6 +216,5 @@ None
             "value": 14
         },
     ]
-}
 }
 ```

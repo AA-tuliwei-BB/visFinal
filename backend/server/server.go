@@ -136,24 +136,21 @@ func rel_handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	typename, ok := r.URL.Query()["type"]
-	if !ok {
-		http.Error(w, "type not found", http.StatusBadRequest)
-		return
-	}
-	name, ok := r.URL.Query()["name"]
-	if !ok {
-		http.Error(w, "name not found", http.StatusBadRequest)
-		return
-	}
-	limit_str, ok := r.URL.Query()["limit"]
-	limit, err := strconv.Atoi(limit_str[0])
+	limit_str, ok := r.URL.Query()["province"]
+	numProvince, err := strconv.Atoi(limit_str[0])
 	if !ok || err != nil {
 		http.Error(w, "limit invalid", http.StatusBadRequest)
 		return
 	}
 
-	result, err := get_rel(typename[0], name[0], limit)
+	limit_str, ok = r.URL.Query()["keyword"]
+	numKeyword, err := strconv.Atoi(limit_str[0])
+	if !ok || err != nil {
+		http.Error(w, "limit invalid", http.StatusBadRequest)
+		return
+	}
+
+	result, err := get_rel(numProvince, numKeyword)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
