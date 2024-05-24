@@ -32,11 +32,19 @@ const update = async () => {
     let currentProvince = selectedProvinces.value[0];
     console.log(currentProvince)
     if (!currentProvince || currentProvince === "all") {
+        relChart.clear();
+        updateRelationship.value = false;
         return;
     }
     let jsonData = await getRel("province", currentProvince);
     let nodes = [{ name: currentProvince }]
     let links = []
+    console.log(jsonData)
+    if (jsonData.data === null) {
+        relChart.clear();
+        updateRelationship.value = false;
+        return;
+    }
     jsonData.data.forEach(element => {
 
         if (nodes.find(node => node.name === element.name)) {
@@ -45,7 +53,6 @@ const update = async () => {
         nodes.push({ name: element.name });
         links.push({ source: currentProvince, target: element.name, value: element.value });
     });
-    console.log(nodes, links)
     const option = {
         tooltip: {
             trigger: 'item',
@@ -81,8 +88,8 @@ onMounted(async () => {
 <style scoped>
 .chart {
     position: absolute;
-    top: 25%;
-    height: 75%;
+    top: 8vh;
+    height: calc(98% - 8vh);
     width: 100%;
 }
 </style>

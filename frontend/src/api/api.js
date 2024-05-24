@@ -80,6 +80,7 @@ export async function getList(page, pageSize) {
     })
   );
 
+  if (!response.data) return response;
   response.data.forEach((item_1) => {
     if (myMap.has(item_1.batch)) {
       item_1.batch = myMap.get(item_1.batch);
