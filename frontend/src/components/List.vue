@@ -165,7 +165,7 @@ onMounted(async () => {
     left: 500px;
     width: calc(98% - 500px);
     top: 15%;
-    height: min(320px, 73%);
+    height: min(320px, 80%);
 }
 
 </style>
