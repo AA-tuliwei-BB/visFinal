@@ -45,14 +45,7 @@ const update = async () => {
         updateRelationship.value = false;
         return;
     }
-    jsonData.data.forEach(element => {
-
-        if (nodes.find(node => node.name === element.name)) {
-            return;
-        }
-        nodes.push({ name: element.name });
-        links.push({ source: currentProvince, target: element.name, value: element.value });
-    });
+    // console.log([jsonData.provinces, jsonData.keywords])
     const option = {
         tooltip: {
             trigger: 'item',
@@ -61,8 +54,8 @@ const update = async () => {
         series: {
             type: 'sankey',
             layout: 'none',
-            data: nodes,
-            links: links,
+            data: [...jsonData.provinces, ...jsonData.keywords],
+            links: jsonData.links,
             emphasis: {
                 focus: 'adjacency'
             },

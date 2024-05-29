@@ -115,3 +115,4 @@ export const provinces = [
 ];
 
 export const keywordLimit = 10;
+export const provinceLimit = 5;

@@ -39,7 +39,7 @@ let chart;
 
 const update = async (val) => {
     const jsonData = await getChart(chartType.value);
-    let chartName = Object.entries(groups).find(([key, value]) => value === chartType.value)[0];
+    let chartName = Object.entries(groups).find(([_, value]) => value === chartType.value)[0];
     let option;
     if (chartName === "关键词") {
 

@@ -60,12 +60,11 @@ const updateList = computed({
     get: () => store.state.updateList,
     set: (value) => store.commit('setUpdateList', value)
 })
-
 const tableRef = ref(null);
 const pageSize = 7;
 const totalSize = ref(0);
 const currentPage = ref(1);
-const activeNames = ref(null);
+const activeNames = ref(['1', '2']);
 
 const fullData = ref(null);
 const exhibitData = ref(null);
@@ -80,6 +79,7 @@ const update = async (val) => {
     totalSize.value = fullData.value.num;
     exhibitData.value = fullData.value.data;
     updateList.value = false;
+    activeNames.value = ['1', '2']
 }
 
 const updateDetails = (val) => {
@@ -91,6 +91,7 @@ const updateDetails = (val) => {
         if (!displayData.value.description) {
             displayData.value.description = " ";
         }
+        activeNames.value = ['1', '2']
     } else {
         displayData.value = nullData;
     }
@@ -139,11 +140,12 @@ onMounted(async () => {
 }
 
 .el-collapse {
-  --el-collapse-header-bg-color: rgba(255, 255, 255, 0.1); /* 修改为你想要的颜色 */
-  --el-collapse-border-color: rgba(255, 255, 255, 0.2);
-  --el-collapse-content-bg-color: rgba(255, 255, 255, 0.15);
-  --el-collapse-header-text-color: rgba(255, 255, 255, 0.5);
-  --el-collapse-content-text-color: rgba(255, 255, 255, 0.5);
+    --el-collapse-header-bg-color: rgba(255, 255, 255, 0.1);
+    /* 修改为你想要的颜色 */
+    --el-collapse-border-color: rgba(255, 255, 255, 0.2);
+    --el-collapse-content-bg-color: rgba(255, 255, 255, 0.15);
+    --el-collapse-header-text-color: rgba(255, 255, 255, 0.5);
+    --el-collapse-content-text-color: rgba(255, 255, 255, 0.5);
 }
 
 .el-pagination {
@@ -168,5 +170,4 @@ onMounted(async () => {
     top: 15%;
     height: min(320px, 80%);
 }
-
 </style>

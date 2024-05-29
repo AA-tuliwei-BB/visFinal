@@ -1,6 +1,6 @@
 import request from "@/utils/request";
-import { categories, declarationTimes } from "@/utils/constants";
-import { keywordLimit } from "@/utils/constants";
+import { categories, declarationTimes, provinces } from "@/utils/constants";
+import { keywordLimit, provinceLimit } from "@/utils/constants";
 
 export async function postFilter(
   selectedCategories,
@@ -93,8 +93,8 @@ export function getRel(type, value) {
   return request.get("/rel", {
     params: {
       type: type,
-      name: value,
-      limit: keywordLimit,
+      province: provinceLimit,
+      keyword: keywordLimit,
     },
   });
 }
