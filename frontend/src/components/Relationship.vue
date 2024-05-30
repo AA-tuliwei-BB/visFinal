@@ -31,20 +31,15 @@ let relChart;
 const update = async () => {
     let currentProvince = selectedProvinces.value[0];
     console.log(currentProvince)
-    if (!currentProvince || currentProvince === "all") {
-        relChart.clear();
-        updateRelationship.value = false;
-        return;
-    }
-    let jsonData = await getRel("province", currentProvince);
-    let nodes = [{ name: currentProvince }]
-    let links = []
+    let jsonData = await getRel();
     console.log(jsonData)
-    if (jsonData.data === null) {
+
+    if (jsonData.links === null) {
         relChart.clear();
         updateRelationship.value = false;
         return;
     }
+
     // console.log([jsonData.provinces, jsonData.keywords])
     const option = {
         tooltip: {

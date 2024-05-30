@@ -89,10 +89,9 @@ export async function getList(page, pageSize) {
   return response;
 }
 
-export function getRel(type, value) {
+export function getRel() {
   return request.get("/rel", {
     params: {
-      type: type,
       province: provinceLimit,
       keyword: keywordLimit,
     },
