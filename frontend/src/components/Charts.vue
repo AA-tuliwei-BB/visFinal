@@ -27,9 +27,49 @@ const groups = {
 
 let chartType = ref("category");
 
+const selectedCategories = computed({
+    get: () => store.state.selectedCategories,
+    set: (value) => store.commit('setSelectedCategories', value)
+})
+
+const selectedEthnicity = computed({
+    get: () => store.state.selectedEthnicity,
+    set: (value) => store.commit('setSelectedEthnicity', value)
+})
+
+const selectedBatches = computed({
+    get: () => store.state.selectedBatches,
+    set: (value) => store.commit('setSelectedBatches', value)
+})
+
+const selectedKeyword = computed({
+    get: () => store.state.selectedKeyword,
+    set: (value) => store.commit('setSelectedKeyword', value)
+})
+
+const selectedProvinces = computed({
+    get: () => store.state.selectedProvinces,
+    set: (value) => store.commit('setSelectedProvinces', value)
+})
+
+const updateHeatMap = computed({
+    get: () => store.state.updateHeatMap,
+    set: (value) => store.commit('setUpdateHeatMap', value)
+})
+
 const updateCharts = computed({
     get: () => store.state.updateCharts,
     set: (value) => store.commit('setUpdateCharts', value)
+})
+
+const updateList = computed({
+    get: () => store.state.updateList,
+    set: (value) => store.commit('setUpdateList', value)
+})
+
+const updateRelationship = computed({
+    get: () => store.state.updateRelationship,
+    set: (value) => store.commit('setUpdateRelationship', value)
 })
 
 echarts.use([TooltipComponent, VisualMapComponent, PieChart, LegendComponent, BarChart, CanvasRenderer]);
@@ -102,8 +142,47 @@ watch(chartType, update)
 onMounted(async () => {
     chart = echarts.init(variousChart.value);
     await update(chartType.value)
+    chart.on('click', onClick);
 });
 
+function onClick(params) {
+    let key = Object.entries(groups).find(([_, value]) => value === chartType.value)[0];
+    let value = params.data.name;
+    switch (key) {
+        case "类别": {
+            if (selectedCategories.value.includes(value))
+                selectedCategories.value = selectedCategories.value.filter(item => item !== value);
+            else
+                selectedCategories.value.push(value);
+            break;
+        }
+        case "申报批次": {
+            if (selectedBatches.value.includes(value))
+                selectedBatches.value = selectedBatches.value.filter(item => item !== value);
+            else
+                selectedBatches.value.push(value);
+            break;
+        }
+        case "民族": {
+            if (selectedEthnicity.value.includes(value))
+                selectedEthnicity.value = selectedEthnicity.value.filter(item => item !== value);
+            else
+                selectedEthnicity.value.push(value)
+            break;
+        }
+        case "关键词": {
+            let keywords = selectedKeyword.value.split(" ")[0] === "" ? [] : selectedKeyword.value.split(" ");
+            if (keywords.includes(value))
+                selectedKeyword.value = keywords.filter(item => item !== value).join(" ");
+            else {
+                keywords.push(value);
+                selectedKeyword.value = keywords.join(" ");
+            }
+            break;
+        }
+    }
+    updateList.value = true;
+}
 </script>
 
 <style scoped>
