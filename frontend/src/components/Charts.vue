@@ -11,7 +11,7 @@ import * as echarts from 'echarts/core';
 import { PieChart, BarChart } from 'echarts/charts';
 import { TooltipComponent, VisualMapComponent, LegendComponent } from 'echarts/components';
 import { CanvasRenderer } from 'echarts/renderers';
-import { getChart } from '@/api/api';
+import { getChart, postFilter } from '@/api/api';
 import { useStore } from 'vuex'
 import { computed, watch } from 'vue'
 import { categories, declarationTimes, ethnicities } from "@/utils/constants"

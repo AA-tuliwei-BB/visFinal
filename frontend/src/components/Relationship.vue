@@ -40,7 +40,6 @@ const update = async () => {
         return;
     }
 
-    // console.log([jsonData.provinces, jsonData.keywords])
     const option = {
         tooltip: {
             trigger: 'item',
