@@ -3,7 +3,7 @@
         :data="exhibitData" highlight-current-row show-overflow-tooltip @current-change="updateDetails"
         :row-style="{ backgroundColor: '#f5f5f5' }">
         <el-table-column v-for="item in columns" :prop="item.property" :label="item.label" :width="item.width"
-            header-align="center" align="center" />
+            header-align="center" />
     </el-table>
     <div class="pagination">
         <el-pagination small layout="prev, pager, next" :total="totalSize" :sizes="pageSize" :pager-count="9"
@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, nextTick } from 'vue';
 import { getList } from '@/api/api';
 import { useStore } from 'vuex'
 import { computed, watch } from 'vue'
@@ -78,8 +78,16 @@ const update = async (val) => {
     fullData.value = await getList(currentPage.value, pageSize);
     totalSize.value = fullData.value.num;
     exhibitData.value = fullData.value.data;
+    displayData.value = fullData.value.data[0];
     updateList.value = false;
     activeNames.value = ['1', '2']
+
+    // 设置第一行为当前行
+    nextTick(() => {
+        if (tableRef.value && exhibitData.value.length > 0) {
+            tableRef.value.setCurrentRow(exhibitData.value[0]);
+        }
+    });
 }
 
 const updateDetails = (val) => {

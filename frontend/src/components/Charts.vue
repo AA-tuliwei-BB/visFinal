@@ -14,6 +14,7 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { getChart } from '@/api/api';
 import { useStore } from 'vuex'
 import { computed, watch } from 'vue'
+import { categories, declarationTimes, ethnicities } from "@/utils/constants"
 import 'echarts-wordcloud';
 
 const store = useStore()
@@ -150,13 +151,16 @@ function onClick(params) {
     let value = params.data.name;
     switch (key) {
         case "类别": {
+            value = categories.findIndex(item => item === value)
             if (selectedCategories.value.includes(value))
                 selectedCategories.value = selectedCategories.value.filter(item => item !== value);
             else
                 selectedCategories.value.push(value);
+
             break;
         }
         case "申报批次": {
+            value = declarationTimes.findIndex(item => item === value)
             if (selectedBatches.value.includes(value))
                 selectedBatches.value = selectedBatches.value.filter(item => item !== value);
             else
@@ -166,8 +170,9 @@ function onClick(params) {
         case "民族": {
             if (selectedEthnicity.value.includes(value))
                 selectedEthnicity.value = selectedEthnicity.value.filter(item => item !== value);
-            else
-                selectedEthnicity.value.push(value)
+            else {
+                selectedEthnicity.value.push(value);
+            }
             break;
         }
         case "关键词": {
@@ -181,7 +186,6 @@ function onClick(params) {
             break;
         }
     }
-    updateList.value = true;
 }
 </script>
 
