@@ -56,7 +56,7 @@ const update = async (val) => {
                     drawOutOfBound: false,
                     textStyle: {
                         color: function () {
-                            return 'yellow';
+                            return "#8e94f2";
                         },
                         emphasis: {
                             shadowBlur: 10,
@@ -79,7 +79,10 @@ const update = async (val) => {
                     radius: '50%',
                     label: {
                         color: '#ffffff'
-                    }
+                    },
+                    color:
+                        ["#757bc8", "#8187dc", "#8e94f2", "#9fa0ff", "#ada7ff", "#bbadff", "#cbb2fe", "#dab6fc", "#ddbdfc", "#e0c3fc"]
+
                 }
             ]
         };
