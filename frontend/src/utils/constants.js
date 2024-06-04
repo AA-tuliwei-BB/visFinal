@@ -112,6 +112,8 @@ export const provinces = [
   "青海",
   "香港",
   "黑龙江",
+  "台湾",
+  "南海诸岛",
 ];
 
 export const keywordLimit = 10;

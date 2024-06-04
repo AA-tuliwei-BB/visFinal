@@ -78,13 +78,15 @@ const update = async (val) => {
     fullData.value = await getList(currentPage.value, pageSize);
     totalSize.value = fullData.value.num;
     exhibitData.value = fullData.value.data;
-    displayData.value = fullData.value.data[0];
+    console.log(fullData.value)
+    displayData.value = fullData.value.data ? fullData.value.data[0] : nullData;
+    console.log(displayData.value)
     updateList.value = false;
     activeNames.value = ['1', '2']
 
     // 设置第一行为当前行
     nextTick(() => {
-        if (tableRef.value && exhibitData.value.length > 0) {
+        if (tableRef.value && exhibitData.value) {
             tableRef.value.setCurrentRow(exhibitData.value[0]);
         }
     });
