@@ -107,6 +107,8 @@ def getKeywordByFrequency(description, num_keywords=5, banned_words_file=None):
             banned_words = f.read().split()
         # 过滤掉被禁止词
         keywords = [word for word in keywords if word not in banned_words]
+        # 过滤掉省份
+        keywords = [word for word in keywords if getProvince(word) == '-']
     return keywords
 
 def getKeyword(description, num_keywords=5, banned_words_file=None):
