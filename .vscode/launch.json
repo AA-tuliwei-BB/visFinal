@@ -5,11 +5,25 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "backend",
+            "name": "Run backend",
             "type": "go",
             "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/backend",
+            "mode": "debug",
+            "program": "${workspaceFolder}/backend/main.go", // 假设可执行文件在当前工作区目录下  
+            "cwd": "${workspaceFolder}/backend", // 设置当前工作目录为backend
+            "output": "${workspaceFolder}/backend/backend.exe", // 设置输出文件为backend.exe"
+            // "preLaunchTask": "build" // 设置预启动任务为 build  
+        },
+        {
+            "name": "Run frontend",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "npm",
+            "cwd": "${workspaceFolder}/frontend", // 设置当前工作目录为frontend
+            "runtimeArgs": [
+                "run",
+                "dev"
+            ],
         }
     ]
 }
